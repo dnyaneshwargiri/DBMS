@@ -1,0 +1,191 @@
+set serveroutput on;
+select tablespace_name,table_name from all_tables;
+
+declare
+roll_no number:=&roll_no;
+book_name varchar(10):='&book_name';
+no_of_days number;
+date_of_issue date;
+fineamt number:=0;
+
+
+begin
+
+select doi into date_of_issue from borrower where rno =roll_no; 
+
+select sysdate - to_date(date_of_issue) into no_of_days from dual ;
+
+if (no_of_days >= 15 and no_of_days <= 30 ) then
+fineamt:= 5*no_of_days;
+elsif (no_of_days > 30) then
+fineamt:= 50*no_of_days;
+end if;
+
+insert into fine values(roll_no, sysdate ,fineamt);
+
+update  borrower set st='R' where rno=roll_no;
+
+exception when no_data_found then
+dbms_output.put_line('Invalid record');
+
+end;
+
+create table borrower(rno int,name varchar2(20),doi date,bn varchar(10),st varchar(1))
+ 
+insert into borrower values(143,'dny','1-10-2017','toc','i')
+
+
+
+select * from borrower
+select * from fine
+create table fine (rno int,doi date,amt int))
+
+
+
+
+
+
+
+
+/*cursor*/
+
+
+
+
+declare 
+cursor c1 is select rno from n_list;
+cursor c2 is select rno,name  from o_list;
+
+roll_no_n n_list.rno%type;
+
+roll_no_o  o_list.rno%type;
+name1      o_list.name%type;
+
+begin
+open c1;
+open c2;
+loop
+
+fetch c2 into roll_no_o,name1;
+fetch c1 into roll_no_n;
+
+Exit when c2%found=false;
+
+if(roll_no_o <> roll_no_n) then
+insert into n_list values(roll_no_o,name1);
+end if;
+
+end loop;
+close c1;
+close c2;
+
+end;
+
+
+
+
+
+create table o_list (rno int ,name varchar2(10));
+
+create table n_list (rno int ,name varchar2(10));
+
+
+insert into  o_list values(143 ,'dny');
+insert into  o_list values(164 ,'abc');
+insert into  o_list values(150 ,'amy');
+
+insert into  n_list values(143 ,'dny');
+
+select * from n_list;
+select * from o_list;
+
+delete from n_list;
+
+
+
+/*Parameterized cursor*/
+
+
+declare 
+cursor c1 is select rno from n_list;
+cursor c2(roll_no number) is select rno,name  from o_list where rno=roll_no;
+
+roll_no_n n_list.rno%type;
+
+roll_no_o  o_list.rno%type;
+name1      o_list.name%type;
+
+begin
+open c1;
+open c2(164);
+loop
+
+fetch c2 into roll_no_o,name1;
+fetch c1 into roll_no_n;
+
+Exit when c2%found=false;
+
+if(roll_no_o <> roll_no_n) then
+insert into n_list values(roll_no_o,name1);
+end if;
+
+end loop;
+close c1;
+close c2;
+
+end;
+
+
+/*Parameterized cursor prc2*/
+
+
+declare 
+cursor c2(roll_no number) is select * from o_list where rno=roll_no;
+tmprow      o_list%rowtype;
+
+begin
+
+open c2(143);
+
+
+/*for tmprow in c2(143)*/ loop
+fetch c2 into tmprow;
+Exit when c2%notfound;
+dbms_output.put_line('roll no is: '||tmprow.rno||'name is:'||tmprow.name);
+
+
+
+end loop;
+
+close c2;
+
+end;
+
+
+
+/*Parameterized cursor prc3*/
+
+
+declare 
+
+cursor c2(roll_no number) is select * from o_list where rno=roll_no;
+
+
+
+
+tmprow      o_list%rowtype;
+
+begin
+/*open c1;*/
+open c2(143);
+fetch c2 into tmprow;
+
+dbms_output.put_line('roll no is: '||tmprow.rno||'name is:'||tmprow.name);
+
+
+
+close c2;
+
+end;
+
+

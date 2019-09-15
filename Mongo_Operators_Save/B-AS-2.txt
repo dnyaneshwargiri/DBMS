@@ -1,0 +1,244 @@
+
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+
+/*  Aim  :   Design and Develop MongoDB Queries using CRUD
+             operations. (Use CRUD operations, SAVE method,
+             logical operators)
+*/
+
+
+mmdb.Employee.insert([{name:"Harry",age:26,salary:3000,dept:'Teaching'},{name:"prasad",age:20,salary:3500,dept:'student'}]);
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "name" : "Joe", "age" : 25, "salary" : 2000, "dept" : "Developer" }
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+
+
+
+> db.Employee.save([{name:"Dnyaneshwar",age:20,salary:5000,dept:'WebDeveloper'},{name:"sanket",age:21,salary:3500,dept:'Debugger'}]);
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "name" : "Joe", "age" : 25, "salary" : 2000, "dept" : "Developer" }
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "name" : "Dnyaneshwar", "age" : 20, "salary" : 5000, "dept" : "WebDeveloper" }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+> db.Employee.find().pretty();
+{
+    "_id" : ObjectId("59b22064b6363ce36882290e"),
+    "name" : "Joe",
+    "age" : 25,
+    "salary" : 2000,
+    "dept" : "Developer"
+}
+{
+    "_id" : ObjectId("59b2228cb6363ce36882290f"),
+    "name" : "Harry",
+    "age" : 26,
+    "salary" : 3000,
+    "dept" : "Teaching"
+}
+{
+    "_id" : ObjectId("59b2228cb6363ce368822910"),
+    "name" : "prasad",
+    "age" : 20,
+    "salary" : 3500,
+    "dept" : "student"
+}
+{
+    "_id" : ObjectId("59b222e4b6363ce368822911"),
+    "name" : "Dnyaneshwar",
+    "age" : 20,
+    "salary" : 5000,
+    "dept" : "WebDeveloper"
+}
+{
+    "_id" : ObjectId("59b222e4b6363ce368822912"),
+    "name" : "sanket",
+    "age" : 21,
+    "salary" : 3500,
+    "dept" : "Debugger"
+}
+
+
+
+
+
+> db.Employee.find().pretty();
+{
+    "_id" : ObjectId("59b22064b6363ce36882290e"),
+    "name" : "Joe",
+    "age" : 25,
+    "salary" : 2000,
+    "dept" : "Developer"
+}
+{
+    "_id" : ObjectId("59b2228cb6363ce36882290f"),
+    "name" : "Harry",
+    "age" : 26,
+    "salary" : 3000,
+    "dept" : "Teaching"
+}
+{
+    "_id" : ObjectId("59b2228cb6363ce368822910"),
+    "name" : "prasad",
+    "age" : 20,
+    "salary" : 3500,
+    "dept" : "student"
+}
+{
+    "_id" : ObjectId("59b222e4b6363ce368822911"),
+    "name" : "Dnyaneshwar",
+    "age" : 20,
+    "salary" : 5000,
+    "dept" : "WebDeveloper"
+}
+{
+    "_id" : ObjectId("59b222e4b6363ce368822912"),
+    "name" : "sanket",
+    "age" : 21,
+    "salary" : 3500,
+    "dept" : "Debugger"
+}
+> db.Employee.find({name:'Joe',age:25});
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "name" : "Joe", "age" : 25, "salary" : 2000, "dept" : "Developer" }
+> db.Employee.find({age:20});
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "name" : "Dnyaneshwar", "age" : 20, "salary" : 5000, "dept" : "WebDeveloper" }
+> db.Employee.find({age:20});
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "name" : "Dnyaneshwar", "age" : 20, "salary" : 5000, "dept" : "WebDeveloper" }
+
+
+> db.Employee.find({salary:{$gt:2000}});
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "name" : "Dnyaneshwar", "age" : 20, "salary" : 5000, "dept" : "WebDeveloper" }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+> db.Employee.find({salary:{$lt:3000}});
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "name" : "Joe", "age" : 25, "salary" : 2000, "dept" : "Developer" }
+
+
+
+
+> db.Employee.update({name:"Joe"},{$set:{dept:'Operations'}});
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 2000 }
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "name" : "prasad", "age" : 20, "salary" : 3500, "dept" : "student" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "name" : "Dnyaneshwar", "age" : 20, "salary" : 5000, "dept" : "WebDeveloper" }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+> db.Employee.update({age:20},{$set:{dept:'Operations'}},{multi:true});
+
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 2000 }
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+
+> db.Employee.update({name:"Joe"},{$inc:{salary:2000}});
+
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b2228cb6363ce36882290f"), "name" : "Harry", "age" : 26, "salary" : 3000, "dept" : "Teaching" }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+
+> db.Employee.remove({dept:'Teaching'});
+
+> db.Employee.find();
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+> db.Employee.find().sort({name:1});
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+> db.Employee.find().sort({name:0});
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+> db.Employee.find().sort({name:-1});
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+> db.Employee.find().sort({name:1,age:-1});
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+
+
+
+
+
+> db.Employee.find().limit(3);
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "name" : "Joe", "salary" : 4000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+
+> db.Employee.find().skip(3);
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+
+
+> db.Employee.update({name:'Joe'},{$addToSet:{emailid:['joe123','Joe123']}});
+> db.Employee.find();
+{ "_id" : ObjectId("59b222e4b6363ce368822911"), "age" : 20, "dept" : "Operations", "name" : "Dnyaneshwar", "salary" : 5000 }
+{ "_id" : ObjectId("59b222e4b6363ce368822912"), "name" : "sanket", "age" : 21, "salary" : 3500, "dept" : "Debugger" }
+{ "_id" : ObjectId("59b2228cb6363ce368822910"), "age" : 20, "dept" : "Operations", "name" : "prasad", "salary" : 3500 }
+{ "_id" : ObjectId("59b22064b6363ce36882290e"), "age" : 25, "dept" : "Operations", "emailid" : [  [  "joe123",  "Joe123" ] ], "name" : "Joe", "salary" : 4000 }
+
+> db.Employee.find().pretty();
+{
+    "_id" : ObjectId("59b222e4b6363ce368822911"),
+    "age" : 20,
+    "dept" : "Operations",
+    "name" : "Dnyaneshwar",
+    "salary" : 5000
+}
+{
+    "_id" : ObjectId("59b222e4b6363ce368822912"),
+    "name" : "sanket",
+    "age" : 21,
+    "salary" : 3500,
+    "dept" : "Debugger"
+}
+{
+    "_id" : ObjectId("59b2228cb6363ce368822910"),
+    "age" : 20,
+    "dept" : "Operations",
+    "name" : "prasad",
+    "salary" : 3500
+}
+{
+    "_id" : ObjectId("59b22064b6363ce36882290e"),
+    "age" : 25,
+    "dept" : "Operations",
+    "emailid" : [
+        [
+            "joe123",
+            "Joe123"
+        ]
+    ],
+    "name" : "Joe",
+    "salary" : 4000
+}
+> 
+
+
+

@@ -1,0 +1,516 @@
+
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+/*
+
+
+   Aim:  Implement aggregation and indexing with suitable
+         example using MongoDB.
+
+
+*/
+
+
+mmcoe@mmcoe-desktop:~$ mongo
+MongoDB shell version: 2.6.10
+connecting to: test
+> db
+test
+> use dnyaneshwar;
+switched to db dnyaneshwar
+> db.createCollection("products");
+{ "ok" : 1 }
+> db.product.insert({name:"smartphone",company:"redmi",cost:10000});
+WriteResult({ "nInserted" : 1 })
+> db.product.insert({name:"ac",company:"voltas",cost:25000});
+WriteResult({ "nInserted" : 1 })
+> db.product.insert({name:"refregerator",company:"whirlpool",cost:15000});
+WriteResult({ "nInserted" : 1 })
+> db.product.insert({name:"tv",company:"panasonic",cost:75000});
+WriteResult({ "nInserted" : 1 })
+> db.product.insert({name:"ps4",company:"sony",cost:45000});
+WriteResult({ "nInserted" : 1 })
+> db.product.insert({name:"washing_m/c",company:"lg",cost:35000});
+WriteResult({ "nInserted" : 1 })
+> db.product.find();
+{ "_id" : ObjectId("59ca01574c36e78b240c006d"), "name" : "smartphone", "company" : "redmi", "cost" : 10000 }
+{ "_id" : ObjectId("59ca01874c36e78b240c006e"), "name" : "ac", "company" : "voltas", "cost" : 25000 }
+{ "_id" : ObjectId("59ca01af4c36e78b240c006f"), "name" : "refregerator", "company" : "whirlpool", "cost" : 15000 }
+{ "_id" : ObjectId("59ca01c94c36e78b240c0070"), "name" : "tv", "company" : "panasonic", "cost" : 75000 }
+{ "_id" : ObjectId("59ca01dd4c36e78b240c0071"), "name" : "ps4", "company" : "sony", "cost" : 45000 }
+{ "_id" : ObjectId("59ca01f84c36e78b240c0072"), "name" : "washing_m/c", "company" : "lg", "cost" : 35000 }
+> db.product.find().pretty();
+{
+	"_id" : ObjectId("59ca01574c36e78b240c006d"),
+	"name" : "smartphone",
+	"company" : "redmi",
+	"cost" : 10000
+}
+{
+	"_id" : ObjectId("59ca01874c36e78b240c006e"),
+	"name" : "ac",
+	"company" : "voltas",
+	"cost" : 25000
+}
+{
+	"_id" : ObjectId("59ca01af4c36e78b240c006f"),
+	"name" : "refregerator",
+	"company" : "whirlpool",
+	"cost" : 15000
+}
+{
+	"_id" : ObjectId("59ca01c94c36e78b240c0070"),
+	"name" : "tv",
+	"company" : "panasonic",
+	"cost" : 75000
+}
+{
+	"_id" : ObjectId("59ca01dd4c36e78b240c0071"),
+	"name" : "ps4",
+	"company" : "sony",
+	"cost" : 45000
+}
+{
+	"_id" : ObjectId("59ca01f84c36e78b240c0072"),
+	"name" : "washing_m/c",
+	"company" : "lg",
+	"cost" : 35000
+}
+
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}});
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 45000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+> db.product.insert({name:"smartphone",company:"sony",cost:16000});
+WriteResult({ "nInserted" : 1 })
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}});
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+
+
+> db.product.aggregate({$sort:{cost:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}});
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+> db.product.aggregate({$sort:{company:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}});
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+> db.product.aggregate({$sort:{name:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}});
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ db.product.aggregate({$sort:{name:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}}).pretty();
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+> db.product.aggregate({$sort:{name:-1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}}).pretty();
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+> db.product.aggregate({$sort:{company:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}}).pretty();
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}},{$sort:{company:1}}).pretty();
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+> db.product.aggregate({$sort:{company:1}},{$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}}).pretty();
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}},{$sort:{company:1}}).pretty();
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}},{$sort:{_id:1}}).pretty();
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}},{$sort:{maxprice:1}}).pretty();
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+
+
+
+
+
+
+
+
+> db.product.count();
+7
+> db.product.runCommand({distinct:"product",key:"company"});
+{
+	"values" : [
+		"redmi",
+		"voltas",
+		"whirlpool",
+		"panasonic",
+		"sony",
+		"lg"
+	],
+	"stats" : {
+		"n" : 7,
+		"nscanned" : 7,
+		"nscannedObjects" : 7,
+		"timems" : 69,
+		"cursor" : "BasicCursor"
+	},
+	"ok" : 1
+}
+> db.product.runCommand({key:"company"});
+{
+	"ok" : 0,
+	"errmsg" : "no such cmd: key",
+	"code" : 59,
+	"bad cmd" : {
+		"key" : "company"
+	}
+}
+> db.product.aggregate({ $match: {company:"sony"}},{$group :{_id:"$company",count:{$sum:1}}});
+{ "_id" : "sony", "count" : 2 }
+> db.product.aggregate({$group :{_id:"$company",count:{$sum:1}}});
+{ "_id" : "lg", "count" : 1 }
+{ "_id" : "panasonic", "count" : 1 }
+{ "_id" : "whirlpool", "count" : 1 }
+{ "_id" : "sony", "count" : 2 }
+{ "_id" : "voltas", "count" : 1 }
+{ "_id" : "redmi", "count" : 1 }
+> db.product.aggregate({$group :{_id:"$company",count:{$sum:1}}},{$limit:1});
+{ "_id" : "lg", "count" : 1 }
+> db.product.aggregate({$group :{_id:"$company",count:{$sum:1}}},{$skip:2},{$limit:3});
+{ "_id" : "whirlpool", "count" : 1 }
+{ "_id" : "sony", "count" : 2 }
+{ "_id" : "voltas", "count" : 1 }
+
+
+
+/* INDEXING-QUERIES*/
+
+
+
+
+> staff ( indexing )start here;
+2017-09-26T13:47:58.197+0530 SyntaxError: Unexpected identifier
+
+> n=9;
+9
+> db.createCollect
+dnyaneshwar.createCollect
+> db.createCollection("staff");
+{ "ok" : 1 }
+
+> for(i=0;i<n;i++){db.staff.insert({id:i,name:"staff"+i,age:20+i})};
+WriteResult({ "nInserted" : 1 })
+> db.staff.find();
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0074"), "id" : 0, "name" : "staff0", "age" : 20 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0075"), "id" : 1, "name" : "staff1", "age" : 21 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0076"), "id" : 2, "name" : "staff2", "age" : 22 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0077"), "id" : 3, "name" : "staff3", "age" : 23 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0078"), "id" : 4, "name" : "staff4", "age" : 24 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c0079"), "id" : 5, "name" : "staff5", "age" : 25 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c007a"), "id" : 6, "name" : "staff6", "age" : 26 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c007b"), "id" : 7, "name" : "staff7", "age" : 27 }
+{ "_id" : ObjectId("59ca0e5a4c36e78b240c007c"), "id" : 8, "name" : "staff8", "age" : 28 }
+> db.staff.find({id:2}).explain();
+{
+	"cursor" : "BasicCursor",
+	"isMultiKey" : false,
+	"n" : 1,
+	"nscannedObjects" : 9,
+	"nscanned" : 9,
+	"nscannedObjectsAllPlans" : 9,
+	"nscannedAllPlans" : 9,
+	"scanAndOrder" : false,
+	"indexOnly" : false,
+	"nYields" : 0,
+	"nChunkSkips" : 0,
+	"millis" : 0,
+	"server" : "mmcoe-desktop:27017",
+	"filterSet" : false
+}
+
+> db.product.aggregate({$group:{_id:"$company",maxprice:{$max:"$cost"},minprice:{$min:"$cost"}}},{$sort:{_id:1,maxprice:1}}).pretty();
+{ "_id" : "lg", "maxprice" : 35000, "minprice" : 35000 }
+{ "_id" : "panasonic", "maxprice" : 75000, "minprice" : 75000 }
+{ "_id" : "redmi", "maxprice" : 10000, "minprice" : 10000 }
+{ "_id" : "sony", "maxprice" : 45000, "minprice" : 16000 }
+{ "_id" : "voltas", "maxprice" : 25000, "minprice" : 25000 }
+{ "_id" : "whirlpool", "maxprice" : 15000, "minprice" : 15000 }
+> db.staff.ensureIndex({name:1});
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.staff.find({id:2}).explain();
+{
+	"cursor" : "BasicCursor",
+	"isMultiKey" : false,
+	"n" : 1,
+	"nscannedObjects" : 9,
+	"nscanned" : 9,
+	"nscannedObjectsAllPlans" : 9,
+	"nscannedAllPlans" : 9,
+	"scanAndOrder" : false,
+	"indexOnly" : false,
+	"nYields" : 0,
+	"nChunkSkips" : 0,
+	"millis" : 0,
+	"server" : "mmcoe-desktop:27017",
+	"filterSet" : false
+}
+
+> db.staff.ensureIndex({name:1});
+{ "numIndexesBefore" : 2, "note" : "all indexes already exist", "ok" : 1 }
+
+
+> db.staff.getIndexes();
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"name" : "_id_",
+		"ns" : "dnyaneshwar.staff"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"name" : 1
+		},
+		"name" : "name_1",
+		"ns" : "dnyaneshwar.staff"
+	}
+]
+
+
+> db.staff.find({name:"staff2",age:{$gt:21}}).explain()
+{
+	"cursor" : "BtreeCursor name_1",
+	"isMultiKey" : false,
+	"n" : 1,
+	"nscannedObjects" : 1,
+	"nscanned" : 1,
+	"nscannedObjectsAllPlans" : 1,
+	"nscannedAllPlans" : 1,
+	"scanAndOrder" : false,
+	"indexOnly" : false,
+	"nYields" : 0,
+	"nChunkSkips" : 0,
+	"millis" : 43,
+	"indexBounds" : {
+		"name" : [
+			[
+				"staff2",
+				"staff2"
+			]
+		]
+	},
+	"server" : "mmcoe-desktop:27017",
+	"filterSet" : false
+}
+> db.staff.find({name:"staff2",age:{$gt:21}}).pretty();
+{
+	"_id" : ObjectId("59ca0e5a4c36e78b240c0076"),
+	"id" : 2,
+	"name" : "staff2",
+	"age" : 22
+}
+> 
+> db.staff.find({name:"staff2",age:{$gt:21}}).explain();
+{
+	"cursor" : "BtreeCursor name_1",
+	"isMultiKey" : false,
+	"n" : 1,
+	"nscannedObjects" : 1,
+	"nscanned" : 1,
+	"nscannedObjectsAllPlans" : 1,
+	"nscannedAllPlans" : 1,
+	"scanAndOrder" : false,
+	"indexOnly" : false,
+	"nYields" : 0,
+	"nChunkSkips" : 0,
+	"millis" : 0,
+	"indexBounds" : {
+		"name" : [
+			[
+				"staff2",
+				"staff2"
+			]
+		]
+	},
+	"server" : "mmcoe-desktop:27017",
+	"filterSet" : false
+}
+> db.staff.stats();
+{
+	"ns" : "dnyaneshwar.staff",
+	"count" : 9,
+	"size" : 1008,
+	"avgObjSize" : 112,
+	"storageSize" : 8192,
+	"numExtents" : 1,
+	"nindexes" : 2,
+	"lastExtentSize" : 8192,
+	"paddingFactor" : 1,
+	"systemFlags" : 1,
+	"userFlags" : 1,
+	"totalIndexSize" : 16352,
+	"indexSizes" : {
+		"_id_" : 8176,
+		"name_1" : 8176
+	},
+	"ok" : 1
+}
+> db.staff.find({name:"staff2",age:{$gt:21}}).explain();
+{
+	"cursor" : "BtreeCursor name_1",
+	"isMultiKey" : false,
+	"n" : 1,
+	"nscannedObjects" : 1,
+	"nscanned" : 1,
+	"nscannedObjectsAllPlans" : 1,
+	"nscannedAllPlans" : 1,
+	"scanAndOrder" : false,
+	"indexOnly" : false,
+	"nYields" : 0,
+	"nChunkSkips" : 0,
+	"millis" : 0,
+	"indexBounds" : {
+		"name" : [
+			[
+				"staff2",
+				"staff2"
+			]
+		]
+	},
+	"server" : "mmcoe-desktop:27017",
+	"filterSet" : false
+}
+> db.staff.ensureIndex({name:1,age:1});
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 2,
+	"numIndexesAfter" : 3,
+	"ok" : 1
+}
+> db.staff.getIndexes();
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"name" : "_id_",
+		"ns" : "dnyaneshwar.staff"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"name" : 1
+		},
+		"name" : "name_1",
+		"ns" : "dnyaneshwar.staff"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"name" : 1,
+			"age" : 1
+		},
+		"name" : "name_1_age_1",
+		"ns" : "dnyaneshwar.staff"
+	}
+]
+> 
+
+
+db.indexDemo.createIndex({id:1})
+> db.indexDemo.getIndexes()
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"ns" : "test.indexDemo",
+		"name" : "_id_"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"id" : 1
+		},
+		"ns" : "test.indexDemo",
+		"name" : "id_1"
+	}
+]
+> db.indexDemo.dropIndex('id_1')
+{ "nIndexesWas" : 2, "ok" : 1 }
+> db.indexDemo.getIndexes()
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"ns" : "test.indexDemo",
+		"name" : "_id_"
+	}
+]
+
+
+

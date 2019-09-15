@@ -1,0 +1,192 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+
+/* Aim  :   PL/SQL Stored Procedure and Stored Function.
+            Write a Stored Procedure namely proc_Grade for the
+            categorization of student. If marks scored by students in
+            examination is <=1500 and marks>=990 then student will
+            be placed in distinction category if marks scored are
+            between 989 and900 category is first class, if marks 899
+            and 825 category is Higher Second Class Write a PL/SQL
+            block for using procedure created with above
+            requirement.
+            Stud_Marks(name,total_marks),Result(Roll,Name, Class)
+
+*/
+
+
+
+   /* PL-SQL Code */
+
+/*procedure functions starts */
+
+
+
+create or replace procedure proc_grade (roll in number , name in varchar2 , marks in number)
+is
+
+
+grade varchar2(10);
+
+begin
+
+
+if(marks <= 1500 and marks >= 990) then
+grade :='disti';
+
+elsif (marks<= 989 and marks>= 900) then
+grade :='fc';
+
+elsif(marks<=899 and marks >=825) then
+grade :='hs'; 
+
+end if;
+insert into result values (name,grade);
+
+end;
+
+ /////
+
+
+exec proc_grade(143,'Dny',100);
+drop procedure proc_grade;
+ select * from result;
+
+create table students (name varchar(10),marks int); 
+create table result (name varchar(10),grade varchar(10)); 
+
+insert into students values ('Dny',1400);
+insert into students values ('Amy',990);
+insert into students values ('lacy',830);
+
+select * from students;
+select * from result;
+
+
+
+/* OUTPUT ON SHELL */
+
+
+
+saraswati@saraswati-desktop:~$ sudo service oracle-xe start
+[sudo] password for saraswati: 
+saraswati@saraswati-desktop:~$ sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Feb 11 21:59:37 2016
+
+Copyright (c) 1982, 2011, Oracle.  All rights reserved.
+
+Enter user-name: saraswati
+Enter password: 
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> create or replace procedure proc_grade (roll in number , name in varchar2 , marks in number)
+is
+
+
+grade varchar2(10);
+
+begin
+
+
+/*if(marks <= 1500 and marks >= 990) then
+grade :='disti';
+
+elsif (marks<= 989 and marks>= 900) then
+grade :='fc';
+
+elsif(marks<=899 and marks >=825)
+grade :='hs'; 
+
+end if;*/
+insert into result values (name,grade);
+
+end;
+  2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23  
+ 24  /
+
+Procedure created.
+
+SQL> create or replace procedure proc_grade (roll in number , name in varchar2 , marks in number)
+is
+
+
+grade varchar2(10);
+
+begin
+
+
+if(marks <= 1500 and marks >= 990) then
+grade :='disti';
+
+elsif (marks<= 989 and marks>= 900) then
+grade :='fc';
+
+elsif(marks<=899 and marks >=825) then
+grade :='hs'; 
+
+end if;
+insert into result values (name,grade);
+
+end;
+  2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23  
+ 24  /
+
+Procedure created.
+
+SQL> exec proc_grade(143,'Dny',1400);
+
+PL/SQL procedure successfully completed.
+
+SQL>  select * from result;
+
+NAME	   GRADE
+---------- ----------
+Dny	   disti
+
+SQL> exec proc_grade(143,'Dny',980);
+
+PL/SQL procedure successfully completed.
+
+SQL>  select * from result;
+
+NAME	   GRADE
+---------- ----------
+Dny	   disti
+Dny	   fc
+
+SQL> exec proc_grade(143,'Dny',830);
+
+PL/SQL procedure successfully completed.
+
+SQL>  select * from result;
+
+NAME	   GRADE
+---------- ----------
+Dny	   disti
+Dny	   fc
+Dny	   hs
+
+SQL> exec proc_grade(143,'Dny',100);
+
+PL/SQL procedure successfully completed.
+
+SQL>  select * from result;
+
+NAME	   GRADE
+---------- ----------
+Dny	   disti
+Dny	   fc
+Dny	   hs
+

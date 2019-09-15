@@ -1,0 +1,36 @@
+
+
+/*         Aim   :  Implement Map reduces operation with         suitable             example
+                    using MongoDB.
+
+
+
+*/
+
+
+
+> var mapfunc=function(){emit(this.name,this.age)};
+> var redfunc=function(keyname,valueage){return Array.sum(valueage)};
+> db.staff.mapReduce(mapfunc,redfunc,{out:'staff_mr'});
+{
+	"result" : "staff_mr",
+	"timeMillis" : 1001,
+	"counts" : {
+		"input" : 4,
+		"emit" : 4,
+		"reduce" : 1,
+		"output" : 3
+	},
+	"ok" : 1
+}
+> db.staff.find();
+{ "_id" : ObjectId("59c898d2d293a398e68c4d05"), "name" : "a", "age" : 20 }
+{ "_id" : ObjectId("59c898dfd293a398e68c4d06"), "name" : "a", "age" : 21 }
+{ "_id" : ObjectId("59c898eed293a398e68c4d07"), "name" : "b", "age" : 24 }
+{ "_id" : ObjectId("59c898f4d293a398e68c4d08"), "name" : "c", "age" : 26 }
+> db.staff_mr.find();
+{ "_id" : "a", "value" : 41 }
+{ "_id" : "b", "value" : 24 }
+{ "_id" : "c", "value" : 26 }
+> 
+

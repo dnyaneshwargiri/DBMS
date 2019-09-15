@@ -1,0 +1,253 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+/*       Aim:   Unnamed PL/SQL code block: Use of Control structure
+                and Exception handling is mandatory.
+                Write a PL/SQL block of code for the following
+                requirements:-
+                Schema:
+                1. Borrower(Rollin, Name, DateofIssue, NameofBook,
+                 Status)
+                2.Fine(Roll_no,Date,Amt)
+                Accept roll_no & name of book from user.
+                Check the number of days (from date of issue), if
+                days are between 15 to 30 then fine amount will be
+                Rs 5per day.
+                If no. of days>30, per day fine will be Rs 50 per day
+                & for days less than 30, Rs. 5 per day.
+                After submitting the book, status will change from I
+                to R.
+                If condition of fine is true, then details will be stored
+                into fine table.
+
+
+                                                                          
+ */
+
+              /* PL-SQL CODE*/ 
+
+
+
+
+
+declare 
+r_no number(3):=&roll_student;
+banme varchar2(20):='&book_name';
+no_days number;
+issuedate date;
+fineamt number:=0;
+
+begin
+select d_o_i into issuedate from borrower where roll_b=r_no;
+select sysdate - to_date(issuedate) days into no_days from dual;
+if(no_days <=15) then
+fineamt:=0;
+
+elsif(no_days > 15 and no_days <= 30 ) then
+fineamt:=5*no_days;
+
+elsif (no_days >30) then
+fineamt :=50*no_days;
+end if;
+
+update borrower set status='R' where roll_b=r_no;
+insert into fine values (r_no,sysdate,fineamt);
+
+Exception when no_data_found then
+dbms_output.put_line('No Record Found !!');
+end;
+
+
+
+insert into borrower (roll_b,name,book_name,d_O_i,status) values (101,'Dnyanesh','Korth_sudarshan',15-06-2017,'I'),(102,'Nitesh','TOC','15-07-2017','I');
+
+
+insert into borrower (roll_b,name,book_name,d_O_i,status) values (102,'Nitesh','TOC','15-07-2017','I');;
+
+
+
+/**************** output on shell ****************/
+
+
+
+
+
+
+
+
+
+
+SQL> declare 
+r_no number(3):=&roll_student;
+banme varchar(2):='&book_name';
+no_days number;
+issuedate date;
+fineamt number:=0;
+
+begin
+select d_o_i into issuedate from borrower where roll_b=r_no;
+select sysdate - to_date(issuedate) days into no_days from dual;
+if(no_days <=15) then
+fineamt:=0;
+
+elsif(no_days > 15 and no_days <= 30 ) then
+fineamt:=5*no_days;
+
+elsif (no_days >30) then
+fineamt :=50*no_days;
+end if;
+
+update borrower set status='R' where roll_b=r_no;
+insert into fine values (r_no,name,sysdate,fineamt);
+
+Exception when no_data_found then
+dbms_output.put_line('No Record Found !!');
+end;
+  2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27  
+ 28  /
+Enter value for roll_student: 102
+old   2: r_no number(3):=&roll_student;
+new   2: r_no number(3):=102;
+Enter value for book_name: TOC
+old   3: banme varchar(2):='&book_name';
+new   3: banme varchar(2):='TOC';
+insert into fine values (r_no,name,sysdate,fineamt);
+            *
+
+
+
+SQL> desc fine
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLL_NO					    NUMBER
+ FINE_DATE					    DATE
+ AMT						    NUMBER
+
+
+
+SQL> declare 
+r_no number(3):=&roll_student;
+banme varchar2(20):='&book_name';
+no_days number;
+issuedate date;
+fineamt number:=0;
+
+begin
+select d_o_i into issuedate from borrower where roll_b=r_no;
+select sysdate - to_date(issuedate) days into no_days from dual;
+if(no_days <=15) then
+fineamt:=0;
+
+elsif(no_days > 15 and no_days <= 30 ) then
+fineamt:=5*no_days;
+
+elsif (no_days >30) then
+fineamt :=50*no_days;
+end if;
+
+update borrower set status='R' where roll_b=r_no;
+insert into fine values (r_no,sysdate,fineamt);
+
+Exception when no_data_found then
+dbms_output.put_line('No Record Found !!');
+end;  2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26  
+ 27  /
+Enter value for roll_student: 102
+old   2: r_no number(3):=&roll_student;
+new   2: r_no number(3):=102;
+Enter value for book_name: TOC
+old   3: banme varchar2(20):='&book_name';
+new   3: banme varchar2(20):='TOC';
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from fine;
+
+   ROLL_NO FINE_DAT	   AMT
+---------- -------- ----------
+	 1 19-07-17	  8575
+	 3 19-07-17	    10
+	 1 19-07-17	  8575
+       102 21-07-17	     0
+
+SQL> select * from borrower;
+
+    ROLL_B NAME 		BOOK_NAME	     D_O_I    STATU
+---------- -------------------- -------------------- -------- -----
+       101 Dnyanesh		Korth_sudarshan      15-06-17 I
+       102 Nitesh		TOC		     15-07-17 R
+
+SQL> delete from fine where roll_no =102;
+
+1 row deleted.
+
+SQL> select * from fine;
+
+   ROLL_NO FINE_DAT	   AMT
+---------- -------- ----------
+	 1 19-07-17	  8575
+	 3 19-07-17	    10
+	 1 19-07-17	  8575
+
+SQL> delete from fine where roll_no = 1 and roll_no=3;
+
+0 rows deleted.
+
+SQL>  delete from fine where roll_no = 1 or roll_no=3;         
+
+3 rows deleted.
+
+SQL> declare 
+r_no number(3):=&roll_student;
+banme varchar2(20):='&book_name';
+no_days number;
+issuedate date;
+fineamt number:=0;
+
+begin
+select d_o_i into issuedate from borrower where roll_b=r_no;
+select sysdate - to_date(issuedate) days into no_days from dual;
+if(no_days <=15) then
+fineamt:=0;
+
+elsif(no_days > 15 and no_days <= 30 ) then
+fineamt:=5*no_days;
+
+elsif (no_days >30) then
+fineamt :=50*no_days;
+end if;
+
+update borrower set status='R' where roll_b=r_no;
+insert into fine values (r_no,sysdate,fineamt);
+
+Exception when no_data_found then
+dbms_output.put_line('No Record Found !!');
+end;
+
+  2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28  
+ 29  /
+Enter value for roll_student: 102
+old   2: r_no number(3):=&roll_student;
+new   2: r_no number(3):=102;
+Enter value for book_name: TOC
+old   3: banme varchar2(20):='&book_name';
+new   3: banme varchar2(20):='TOC';
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from fine;
+
+   ROLL_NO FINE_DAT	   AMT
+---------- -------- ----------
+       102 21-07-17	     0
+
+SQL>
+

@@ -1,0 +1,230 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+
+/*Aim  : Design and Develop SQL DDL statements which
+         demonstrate the use of SQL objects such as Table, View,
+         Index, Sequence, Synonym 
+ */
+
+
+mmcoe@mmcoe-desktop:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.18-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database dny;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use dny;
+Database changed
+
+mysql> create table customers(cust_id int auto_increment ,cust_name varchar(20),product varchar(20),quantity int,total_price int,primary key(cust_id));
+Query OK, 0 rows affected (0.64 sec)
+
+mysql> desc customers;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| cust_id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+| cust_name   | varchar(20) | YES  |     | NULL    |                |
+| product     | varchar(20) | YES  |     | NULL    |                |
+| quantity    | int(11)     | YES  |     | NULL    |                |
+| total_price | int(11)     | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> insert into customers (cust_name,product,quantity,total_price) values('cust1','samsung',2,5000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into customers (cust_name,product,quantity,total_price) values('cust2','Lenovo',3,7500),('cust3','Huwai',4,10000),('cust3','Apple',1,20000),('cust4','Videocon',3,15000),('cust5','LG',6,12000);
+Query OK, 5 rows affected (0.06 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++---------+-----------+----------+----------+-------------+
+| cust_id | cust_name | product  | quantity | total_price |
++---------+-----------+----------+----------+-------------+
+|       1 | cust1     | samsung  |        2 |        5000 |
+|       2 | cust2     | Lenovo   |        3 |        7500 |
+|       3 | cust3     | Huwai    |        4 |       10000 |
+|       4 | cust3     | Apple    |        1 |       20000 |
+|       5 | cust4     | Videocon |        3 |       15000 |
+|       6 | cust5     | LG       |        6 |       12000 |
++---------+-----------+----------+----------+-------------+
+6 rows in set (0.00 sec)
+
+
+mysql> alter table customers add price_per_qnty int;
+Query OK, 0 rows affected (0.78 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customers;
++----------------+-------------+------+-----+---------+----------------+
+| Field          | Type        | Null | Key | Default | Extra          |
++----------------+-------------+------+-----+---------+----------------+
+| cust_id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| cust_name      | varchar(20) | YES  |     | NULL    |                |
+| product        | varchar(20) | YES  |     | NULL    |                |
+| quantity       | int(11)     | YES  |     | NULL    |                |
+| total_price    | int(11)     | YES  |     | NULL    |                |
+| price_per_qnty | int(11)     | YES  |     | NULL    |                |
++----------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customers where quantity between 1 and 6;
++---------+-----------+----------+----------+-------------+----------------+
+| cust_id | cust_name | product  | quantity | total_price | price_per_qnty |
++---------+-----------+----------+----------+-------------+----------------+
+|       1 | cust1     | samsung  |        2 |        5000 |           NULL |
+|       2 | cust2     | Lenovo   |        3 |        7500 |           NULL |
+|       3 | cust3     | Huwai    |        4 |       10000 |           NULL |
+|       4 | cust3     | Apple    |        1 |       20000 |           NULL |
+|       5 | cust4     | Videocon |        3 |       15000 |           NULL |
+|       6 | cust5     | LG       |        6 |       12000 |           NULL |
++---------+-----------+----------+----------+-------------+----------------+
+6 rows in set (0.02 sec)
+
+mysql> select * from customers where product like '%s';
+Empty set (0.01 sec)
+
+mysql> select * from customers where product like 's%';
++---------+-----------+---------+----------+-------------+----------------+
+| cust_id | cust_name | product | quantity | total_price | price_per_qnty |
++---------+-----------+---------+----------+-------------+----------------+
+|       1 | cust1     | samsung |        2 |        5000 |           NULL |
++---------+-----------+---------+----------+-------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> create view cust_view as select cust_id,cust_name from customers;
+Query OK, 0 rows affected (0.06 sec)
+
+
+mysql> show tables ;
++---------------+
+| Tables_in_dny |
++---------------+
+| cust_view     |
+| customers     |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from cust_view;
++---------+-----------+
+| cust_id | cust_name |
++---------+-----------+
+|       1 | cust1     |
+|       2 | cust2     |
+|       3 | cust3     |
+|       4 | cust3     |
+|       5 | cust4     |
+|       6 | cust5     |
++---------+-----------+
+6 rows in set (0.02 sec)
+
+mysql> create or replace view cust_view as select cust_id,product,total_price from customers;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from cust_view;
++---------+----------+-------------+
+| cust_id | product  | total_price |
++---------+----------+-------------+
+|       1 | samsung  |        5000 |
+|       2 | Lenovo   |        7500 |
+|       3 | Huwai    |       10000 |
+|       4 | Apple    |       20000 |
+|       5 | Videocon |       15000 |
+|       6 | LG       |       12000 |
++---------+----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into customers (cust_name,product,quantity,total_price) values('cust6','Redmi',6,7500);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from cust_view;                                                 +---------+----------+-------------+
+| cust_id | product  | total_price |
++---------+----------+-------------+
+|       1 | samsung  |        5000 |
+|       2 | Lenovo   |        7500 |
+|       3 | Huwai    |       10000 |
+|       4 | Apple    |       20000 |
+|       5 | Videocon |       15000 |
+|       6 | LG       |       12000 |
+|       7 | Redmi    |        7500 |
++---------+----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> drop view cust_view;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables ;
++---------------+
+| Tables_in_dny |
++---------------+
+| customers     |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> create index cust_index on customers(cust_name);
+Query OK, 0 rows affected (0.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show indexes from customers;
++-----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table     | Non_unique | Key_name   | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| customers |          0 | PRIMARY    |            1 | cust_id     | A         |           6 |     NULL | NULL   |      | BTREE      |         |               |
+| customers |          1 | cust_index |            1 | cust_name   | A         |           6 |     NULL | NULL   | YES  | BTREE      |         |               |
++-----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+2 rows in set (0.00 sec)
+
+
+mysql> drop index cust_index on customers;
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> show indexes from customers;
++-----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table     | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| customers |          0 | PRIMARY  |            1 | cust_id     | A         |           6 |     NULL | NULL   |      | BTREE      |         |               |
++-----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+1 row in set (0.00 sec)
+
+
+mysql> select max(total_price) from customers;
++------------------+
+| max(total_price) |
++------------------+
+|            20000 |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> select max(total_price) as MAX from customers;
++-------+
+| MAX   |
++-------+
+| 20000 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> 
+

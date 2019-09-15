@@ -1,0 +1,597 @@
+
+
+
+/*        Aim:    Design at least 10 SQL queries for suitable database
+                  application using SQL DML statements:
+                  Insert, Select, Update, Delete with operators, functions,
+                  and set operator.  
+
+ */
+
+
+
+
+mmcoe@mmcoe-desktop:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.18-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ass1               |
+| bank               |
+| college            |
+| gb                 |
+| mysql              |
+| performance_schema |
+| sales              |
+| stud1              |
+| student            |
+| sys                |
++--------------------+
+11 rows in set (0.08 sec)
+
+mysql> create database NEW;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| NEW                |
+| ass1               |
+| bank               |
+| college            |
+| gb                 |
+| mysql              |
+| performance_schema |
+| sales              |
+| stud1              |
+| student            |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)
+
+mysql> use NEW;
+Database changed
+mysql> create table student(roll_no int,name varchar(20),division int,year int,brnch varchar(20));
+Query OK, 0 rows affected (0.38 sec)
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| year     | int(11)     | YES  |     | NULL    |       |
+| brnch    | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| year     | int(11)     | YES  |     | NULL    |       |
+| brnch    | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student add marks int;
+Query OK, 0 rows affected (0.64 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| year     | int(11)     | YES  |     | NULL    |       |
+| brnch    | varchar(20) | YES  |     | NULL    |       |
+| marks    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table student drop marks;
+Query OK, 0 rows affected (0.60 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| year     | int(11)     | YES  |     | NULL    |       |
+| brnch    | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.28 sec)
+
+
+mysql> create table bank_sys(cust_id int,name varchar(20),uiid_no int,balance int,contact_no int);
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> desc bank_sys;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cust_id    | int(11)     | YES  |     | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| uiid_no    | int(11)     | YES  |     | NULL    |       |
+| balance    | int(11)     | YES  |     | NULL    |       |
+| contact_no | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+mysql> insert into bank_sys values(100,'dnyaneshwar',777,5000,7775006);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> desc bank_sys;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cust_id    | int(11)     | YES  |     | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| uiid_no    | int(11)     | YES  |     | NULL    |       |
+| balance    | int(11)     | YES  |     | NULL    |       |
+| contact_no | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into bank_sys values(101,'rushab',797,5000,914545);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into bank_sys values(102,'sanket',798,5000,914546);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into bank_sys values(103,'shashank',799,5000,914547);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into bank_sys values(104,'amir',780,5000,914548);
+Query OK, 1 row affected (0.05 sec)
+
+
+mysql> select * from bank_sys;
++---------+-------------+---------+---------+------------+
+| cust_id | name        | uiid_no | balance | contact_no |
++---------+-------------+---------+---------+------------+
+|     100 | dnyaneshwar |     777 |    5000 |    7775006 |
+|     101 | rushab      |     797 |    5000 |     914545 |
+|     102 | sanket      |     798 |    5000 |     914546 |
+|     103 | shashank    |     799 |    5000 |     914547 |
+|     104 | amir        |     780 |    5000 |     914548 |
++---------+-------------+---------+---------+------------+
+5 rows in set (0.01 sec)
+
+
+mysql> select name from bank_sys;
++-------------+
+| name        |
++-------------+
+| dnyaneshwar |
+| rushab      |
+| sanket      |
+| shashank    |
+| amir        |
++-------------+
+5 rows in set (0.00 sec)
+
+mysql> update bank_sys set name='rohan';
+Query OK, 5 rows affected (0.04 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from bank_sys;
++---------+-------+---------+---------+------------+
+| cust_id | name  | uiid_no | balance | contact_no |
++---------+-------+---------+---------+------------+
+|     100 | rohan |     777 |    5000 |    7775006 |
+|     101 | rohan |     797 |    5000 |     914545 |
+|     102 | rohan |     798 |    5000 |     914546 |
+|     103 | rohan |     799 |    5000 |     914547 |
+|     104 | rohan |     780 |    5000 |     914548 |
++---------+-------+---------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update bank_sys set name='dnyaneshwar';
+Query OK, 5 rows affected (0.04 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from bank_sys;
++---------+-------------+---------+---------+------------+
+| cust_id | name        | uiid_no | balance | contact_no |
++---------+-------------+---------+---------+------------+
+|     100 | dnyaneshwar |     777 |    5000 |    7775006 |
+|     101 | dnyaneshwar |     797 |    5000 |     914545 |
+|     102 | dnyaneshwar |     798 |    5000 |     914546 |
+|     103 | dnyaneshwar |     799 |    5000 |     914547 |
+|     104 | dnyaneshwar |     780 |    5000 |     914548 |
++---------+-------------+---------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update bank_sys set name='rushb' where uiid_no=777;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from bank_sys;
++---------+-------------+---------+---------+------------+
+| cust_id | name        | uiid_no | balance | contact_no |
++---------+-------------+---------+---------+------------+
+|     100 | rushb       |     777 |    5000 |    7775006 |
+|     101 | dnyaneshwar |     797 |    5000 |     914545 |
+|     102 | dnyaneshwar |     798 |    5000 |     914546 |
+|     103 | dnyaneshwar |     799 |    5000 |     914547 |
+|     104 | dnyaneshwar |     780 |    5000 |     914548 |
++---------+-------------+---------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update bank_sys set uiid_no=007 where name='rushb';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from bank_sys;
++---------+-------------+---------+---------+------------+
+| cust_id | name        | uiid_no | balance | contact_no |
++---------+-------------+---------+---------+------------+
+|     100 | rushb       |       7 |    5000 |    7775006 |
+|     101 | dnyaneshwar |     797 |    5000 |     914545 |
+|     102 | dnyaneshwar |     798 |    5000 |     914546 |
+|     103 | dnyaneshwar |     799 |    5000 |     914547 |
+|     104 | dnyaneshwar |     780 |    5000 |     914548 |
++---------+-------------+---------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> delete from bank_sys where contact_no=7775006;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from bank_sys;
++---------+-------------+---------+---------+------------+
+| cust_id | name        | uiid_no | balance | contact_no |
++---------+-------------+---------+---------+------------+
+|     101 | dnyaneshwar |     797 |    5000 |     914545 |
+|     102 | dnyaneshwar |     798 |    5000 |     914546 |
+|     103 | dnyaneshwar |     799 |    5000 |     914547 |
+|     104 | dnyaneshwar |     780 |    5000 |     914548 |
++---------+-------------+---------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+mysql> create table student(roll_no int,name varchar(20),division int,branch varchar(20),city varchar(20),marks int);
+Query OK, 0 rows affected (0.39 sec)
+
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| branch   | varchar(20) | YES  |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| marks    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into student values(100,'dnyaneshwar',1,'comp','pune',80);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into student values(101,'rushab',1,'comp','pune',90);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into student values(102,'sanket',1,'comp','Nashik',75);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into student values(103,'rohan',2,'mech','mumbai',65);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into student values(104,'amit',3,'etc','beed',85);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select name,city from student;
++-------------+--------+
+| name        | city   |
++-------------+--------+
+| dnyaneshwar | pune   |
+| rushab      | pune   |
+| sanket      | Nashik |
+| rohan       | mumbai |
+| amit        | beed   |
++-------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update student set name='rushb' where name='dnyaneshwar';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select name,city from student;
++--------+--------+
+| name   | city   |
++--------+--------+
+| rushb  | pune   |
+| rushab | pune   |
+| sanket | Nashik |
+| rohan  | mumbai |
+| amit   | beed   |
++--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update student set name='rushb' where name='rushab';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into student() values(103,'rohan',2,'mech','mumbai',65);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| branch   | varchar(20) | YES  |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| marks    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into student(roll_no,name,division,branch,city,marks) values(221,'rohit',3,'entc','bng',55),(222,'romil',2,'ele','chennai',45);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> desc student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | int(11)     | YES  |     | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| division | int(11)     | YES  |     | NULL    |       |
+| branch   | varchar(20) | YES  |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| marks    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from student;
++---------+--------+----------+--------+---------+-------+
+| roll_no | name   | division | branch | city    | marks |
++---------+--------+----------+--------+---------+-------+
+|     100 | rushb  |        1 | comp   | pune    |    80 |
+|     101 | rushb  |        1 | comp   | pune    |    90 |
+|     102 | sanket |        1 | comp   | Nashik  |    75 |
+|     103 | rohan  |        2 | mech   | mumbai  |    65 |
+|     104 | amit   |        3 | etc    | beed    |    85 |
+|     103 | rohan  |        2 | mech   | mumbai  |    65 |
+|     221 | rohit  |        3 | entc   | bng     |    55 |
+|     222 | romil  |        2 | ele    | chennai |    45 |
++---------+--------+----------+--------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from student where marks >75;
++---------+-------+----------+--------+------+-------+
+| roll_no | name  | division | branch | city | marks |
++---------+-------+----------+--------+------+-------+
+|     100 | rushb |        1 | comp   | pune |    80 |
+|     101 | rushb |        1 | comp   | pune |    90 |
+|     104 | amit  |        3 | etc    | beed |    85 |
++---------+-------+----------+--------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student where name like 'r%';
++---------+-------+----------+--------+---------+-------+
+| roll_no | name  | division | branch | city    | marks |
++---------+-------+----------+--------+---------+-------+
+|     100 | rushb |        1 | comp   | pune    |    80 |
+|     101 | rushb |        1 | comp   | pune    |    90 |
+|     103 | rohan |        2 | mech   | mumbai  |    65 |
+|     103 | rohan |        2 | mech   | mumbai  |    65 |
+|     221 | rohit |        3 | entc   | bng     |    55 |
+|     222 | romil |        2 | ele    | chennai |    45 |
++---------+-------+----------+--------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where marks between 50 and 60;
++---------+-------+----------+--------+------+-------+
+| roll_no | name  | division | branch | city | marks |
++---------+-------+----------+--------+------+-------+
+|     221 | rohit |        3 | entc   | bng  |    55 |
++---------+-------+----------+--------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from student where branch='comp' and city='pune';
++---------+-------+----------+--------+------+-------+
+| roll_no | name  | division | branch | city | marks |
++---------+-------+----------+--------+------+-------+
+|     100 | rushb |        1 | comp   | pune |    80 |
+|     101 | rushb |        1 | comp   | pune |    90 |
++---------+-------+----------+--------+------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student where branch='comp' or city='pune';
++---------+--------+----------+--------+--------+-------+
+| roll_no | name   | division | branch | city   | marks |
++---------+--------+----------+--------+--------+-------+
+|     100 | rushb  |        1 | comp   | pune   |    80 |
+|     101 | rushb  |        1 | comp   | pune   |    90 |
+|     102 | sanket |        1 | comp   | Nashik |    75 |
++---------+--------+----------+--------+--------+-------+
+3 rows in set (0.01 sec)
+
+mysql> delete from student where division=3;
+Query OK, 2 rows affected (0.04 sec)
+
+mysql> select * from student;
++---------+--------+----------+--------+---------+-------+
+| roll_no | name   | division | branch | city    | marks |
++---------+--------+----------+--------+---------+-------+
+|     100 | rushb  |        1 | comp   | pune    |    80 |
+|     101 | rushb  |        1 | comp   | pune    |    90 |
+|     102 | sanket |        1 | comp   | Nashik  |    75 |
+|     103 | rohan  |        2 | mech   | mumbai  |    65 |
+|     103 | rohan  |        2 | mech   | mumbai  |    65 |
+|     222 | romil  |        2 | ele    | chennai |    45 |
++---------+--------+----------+--------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student where branch='mech';
++---------+-------+----------+--------+--------+-------+
+| roll_no | name  | division | branch | city   | marks |
++---------+-------+----------+--------+--------+-------+
+|     103 | rohan |        2 | mech   | mumbai |    65 |
+|     103 | rohan |        2 | mech   | mumbai |    65 |
++---------+-------+----------+--------+--------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delete  from student where branch='mech';
+Query OK, 2 rows affected (0.05 sec)
+
+mysql> select * from student;
++---------+--------+----------+--------+---------+-------+
+| roll_no | name   | division | branch | city    | marks |
++---------+--------+----------+--------+---------+-------+
+|     100 | rushb  |        1 | comp   | pune    |    80 |
+|     101 | rushb  |        1 | comp   | pune    |    90 |
+|     102 | sanket |        1 | comp   | Nashik  |    75 |
+|     222 | romil  |        2 | ele    | chennai |    45 |
++---------+--------+----------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table te_student(roll_no int,name varchar(20));
+Query OK, 0 rows affected (0.32 sec)
+
+mysql> insert into te_student(roll_no,name) values(100,'roshan'),(101,'ashok');
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from te_student;
++---------+--------+
+| roll_no | name   |
++---------+--------+
+|     100 | roshan |
+|     101 | ashok  |
++---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from te_student,student where student.roll_no=te_student.roll_no;
++---------+--------+---------+-------+----------+--------+------+-------+
+| roll_no | name   | roll_no | name  | division | branch | city | marks |
++---------+--------+---------+-------+----------+--------+------+-------+
+|     100 | roshan |     100 | rushb |        1 | comp   | pune |    80 |
+|     101 | ashok  |     101 | rushb |        1 | comp   | pune |    90 |
++---------+--------+---------+-------+----------+--------+------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select roll_no from student union select roll_no from te_student;
++---------+
+| roll_no |
++---------+
+|     100 |
+|     101 |
+|     102 |
+|     222 |
++---------+
+4 rows in set (0.00 sec)
+
+
+mysql> select roll_no from student union all  select roll_no from te_student;
++---------+
+| roll_no |
++---------+
+|     100 |
+|     101 |
+|     102 |
+|     222 |
+|     100 |
+|     101 |
++---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select upper(name) from student;
++-------------+
+| upper(name) |
++-------------+
+| RUSHB       |
+| RUSHB       |
+| SANKET      |
+| ROMIL       |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> select lower(name) from student;
++-------------+
+| lower(name) |
++-------------+
+| rushb       |
+| rushb       |
+| sanket      |
+| romil       |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> select sum(marks) from student;
++------------+
+| sum(marks) |
++------------+
+|        290 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select distinct(name) from student;
++--------+
+| name   |
++--------+
+| rushb  |
+| sanket |
+| romil  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select distinct(branch) from student;
++--------+
+| branch |
++--------+
+| comp   |
+| ele    |
++--------+
+2 rows in set (0.00 sec)
+
+
+mysql> select * from student union select * from te_student;
+

@@ -1,0 +1,278 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+/*    Aim:   Aim : Design and Implement any 5 query using MongoDB.   
+ 
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mmcoe@mmcoe-desktop:~$ mongo
+MongoDB shell version: 2.6.10
+connecting to: test
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+	http://docs.mongodb.org/
+Questions? Try the support group
+	http://groups.google.com/group/mongodb-user
+> db.createCollection("user");
+{ "ok" : 1 }
+> db.user.insert({username:'Dnyaneshwar',age:20,date:new Date()});
+WriteResult({ "nInserted" : 1 })
+> db.user.find();
+{ "_id" : ObjectId("59c8843bd293a398e68c4cf6"), "username" : "Dnyaneshwar", "age" : 20, "date" : ISODate("2017-09-25T04:21:15.607Z") }
+> db.user.insert({username:'Amit',age:23,date:new Date()});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({username:'Sanket',age:27,date:new Date()});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({username:'Rohan',age:21,date:new Date()});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({username:'Amit',age:27,date:new Date()});
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({username:'Prasad',age:22,date:new Date("2017-09-24")});
+WriteResult({ "nInserted" : 1 })
+> db.user.find();
+{ "_id" : ObjectId("59c8843bd293a398e68c4cf6"), "username" : "Dnyaneshwar", "age" : 20, "date" : ISODate("2017-09-25T04:21:15.607Z") }
+{ "_id" : ObjectId("59c8849ed293a398e68c4cf7"), "username" : "Amit", "age" : 23, "date" : ISODate("2017-09-25T04:22:54.706Z") }
+{ "_id" : ObjectId("59c884b8d293a398e68c4cf8"), "username" : "Sanket", "age" : 27, "date" : ISODate("2017-09-25T04:23:20.954Z") }
+{ "_id" : ObjectId("59c8857ad293a398e68c4cf9"), "username" : "Rohan", "age" : 21, "date" : ISODate("2017-09-25T04:26:34.391Z") }
+{ "_id" : ObjectId("59c88581d293a398e68c4cfa"), "username" : "Amit", "age" : 27, "date" : ISODate("2017-09-25T04:26:41.328Z") }
+{ "_id" : ObjectId("59c885e4d293a398e68c4cfb"), "username" : "Prasad", "age" : 22, "date" : ISODate("2017-09-24T00:00:00Z") }
+> db.user.find().pretty();
+{
+	"_id" : ObjectId("59c8843bd293a398e68c4cf6"),
+	"username" : "Dnyaneshwar",
+	"age" : 20,
+	"date" : ISODate("2017-09-25T04:21:15.607Z")
+}
+{
+	"_id" : ObjectId("59c8849ed293a398e68c4cf7"),
+	"username" : "Amit",
+	"age" : 23,
+	"date" : ISODate("2017-09-25T04:22:54.706Z")
+}
+{
+	"_id" : ObjectId("59c884b8d293a398e68c4cf8"),
+	"username" : "Sanket",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:23:20.954Z")
+}
+{
+	"_id" : ObjectId("59c8857ad293a398e68c4cf9"),
+	"username" : "Rohan",
+	"age" : 21,
+	"date" : ISODate("2017-09-25T04:26:34.391Z")
+}
+{
+	"_id" : ObjectId("59c88581d293a398e68c4cfa"),
+	"username" : "Amit",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:26:41.328Z")
+}
+{
+	"_id" : ObjectId("59c885e4d293a398e68c4cfb"),
+	"username" : "Prasad",
+	"age" : 22,
+	"date" : ISODate("2017-09-24T00:00:00Z")
+}
+
+
+> db.user.find({name:'Amit'}).pretty();
+> db.user.find({name:'Amit'}).pretty();
+> db.user.find({name:"Amit"}).pretty();
+> db.user.find({username:"Amit"}).pretty();
+{
+	"_id" : ObjectId("59c8849ed293a398e68c4cf7"),
+	"username" : "Amit",
+	"age" : 23,
+	"date" : ISODate("2017-09-25T04:22:54.706Z")
+}
+{
+	"_id" : ObjectId("59c88581d293a398e68c4cfa"),
+	"username" : "Amit",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:26:41.328Z")
+}
+> db.user.find({username:"Amit",age:27}).pretty();
+{
+	"_id" : ObjectId("59c88581d293a398e68c4cfa"),
+	"username" : "Amit",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:26:41.328Z")
+}
+> db.user.find({ $or: [ { username: "Amit" }, {age:27  } ] }).pretty();
+{
+	"_id" : ObjectId("59c8849ed293a398e68c4cf7"),
+	"username" : "Amit",
+	"age" : 23,
+	"date" : ISODate("2017-09-25T04:22:54.706Z")
+}
+{
+	"_id" : ObjectId("59c884b8d293a398e68c4cf8"),
+	"username" : "Sanket",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:23:20.954Z")
+}
+{
+	"_id" : ObjectId("59c88581d293a398e68c4cfa"),
+	"username" : "Amit",
+	"age" : 27,
+	"date" : ISODate("2017-09-25T04:26:41.328Z")
+}
+> db.user.find({ age:{$gt:18},age:{$lt:24}}).pretty();
+{
+	"_id" : ObjectId("59c8843bd293a398e68c4cf6"),
+	"username" : "Dnyaneshwar",
+	"age" : 20,
+	"date" : ISODate("2017-09-25T04:21:15.607Z")
+}
+{
+	"_id" : ObjectId("59c8849ed293a398e68c4cf7"),
+	"username" : "Amit",
+	"age" : 23,
+	"date" : ISODate("2017-09-25T04:22:54.706Z")
+}
+{
+	"_id" : ObjectId("59c8857ad293a398e68c4cf9"),
+	"username" : "Rohan",
+	"age" : 21,
+	"date" : ISODate("2017-09-25T04:26:34.391Z")
+}
+{
+	"_id" : ObjectId("59c885e4d293a398e68c4cfb"),
+	"username" : "Prasad",
+	"age" : 22,
+	"date" : ISODate("2017-09-24T00:00:00Z")
+}
+> db.user.find({ age:{$gte:18},age:{$lte:24}}).pretty();
+{
+	"_id" : ObjectId("59c8843bd293a398e68c4cf6"),
+	"username" : "Dnyaneshwar",
+	"age" : 20,
+	"date" : ISODate("2017-09-25T04:21:15.607Z")
+}
+{
+	"_id" : ObjectId("59c8849ed293a398e68c4cf7"),
+	"username" : "Amit",
+	"age" : 23,
+	"date" : ISODate("2017-09-25T04:22:54.706Z")
+}
+{
+	"_id" : ObjectId("59c8857ad293a398e68c4cf9"),
+	"username" : "Rohan",
+	"age" : 21,
+	"date" : ISODate("2017-09-25T04:26:34.391Z")
+}
+{
+	"_id" : ObjectId("59c885e4d293a398e68c4cfb"),
+	"username" : "Prasad",
+	"age" : 22,
+	"date" : ISODate("2017-09-24T00:00:00Z")
+}
+> db.user.find({username:1,age:1});
+
+
+> db.user.find({},{username:1,age:1});
+{ "_id" : ObjectId("59c8843bd293a398e68c4cf6"), "username" : "Dnyaneshwar", "age" : 20 }
+{ "_id" : ObjectId("59c8849ed293a398e68c4cf7"), "username" : "Amit", "age" : 23 }
+{ "_id" : ObjectId("59c884b8d293a398e68c4cf8"), "username" : "Sanket", "age" : 27 }
+{ "_id" : ObjectId("59c8857ad293a398e68c4cf9"), "username" : "Rohan", "age" : 21 }
+{ "_id" : ObjectId("59c88581d293a398e68c4cfa"), "username" : "Amit", "age" : 27 }
+{ "_id" : ObjectId("59c885e4d293a398e68c4cfb"), "username" : "Prasad", "age" : 22 }
+> db.user.find({},{_id:0,username:1,age:1});
+{ "username" : "Dnyaneshwar", "age" : 20 }
+{ "username" : "Amit", "age" : 23 }
+{ "username" : "Sanket", "age" : 27 }
+{ "username" : "Rohan", "age" : 21 }
+{ "username" : "Amit", "age" : 27 }
+{ "username" : "Prasad", "age" : 22 }
+
+
+> db.user.find({username:{$not:{$eq:"Amit"}}});
+{ "_id" : ObjectId("59c8843bd293a398e68c4cf6"), "username" : "Dnyaneshwar", "age" : 20, "date" : ISODate("2017-09-25T04:21:15.607Z") }
+{ "_id" : ObjectId("59c884b8d293a398e68c4cf8"), "username" : "Sanket", "age" : 27, "date" : ISODate("2017-09-25T04:23:20.954Z") }
+{ "_id" : ObjectId("59c8857ad293a398e68c4cf9"), "username" : "Rohan", "age" : 21, "date" : ISODate("2017-09-25T04:26:34.391Z") }
+{ "_id" : ObjectId("59c885e4d293a398e68c4cfb"), "username" : "Prasad", "age" : 22, "date" : ISODate("2017-09-24T00:00:00Z") }
+
+
+> db.createCollection("raffle");
+{ "ok" : 1 }
+> db.raffle.insert({tkt_no:100,winner:true});
+WriteResult({ "nInserted" : 1 })
+> db.raffle.insert({tkt_no:101,winner:true});
+WriteResult({ "nInserted" : 1 })
+> db.raffle.insert({tkt_no:123,winner:false});
+WriteResult({ "nInserted" : 1 })
+> db.raffle.insert({tkt_no:163,winner:false});
+WriteResult({ "nInserted" : 1 })
+> db.raffle.insert({tkt_no:765,winner:true});
+WriteResult({ "nInserted" : 1 })
+
+> db.raffle.find({tkt_no:{$in:[123,163,765]}});
+{ "_id" : ObjectId("59c88e6fd293a398e68c4cfe"), "tkt_no" : 123, "winner" : false }
+{ "_id" : ObjectId("59c88e7cd293a398e68c4cff"), "tkt_no" : 163, "winner" : false }
+{ "_id" : ObjectId("59c88e94d293a398e68c4d00"), "tkt_no" : 765, "winner" : true }
+
+
+> db.raffle.find({ $or:[ { tkt_no:{$in:[123,163,765]} }, {winner:true} ]});
+{ "_id" : ObjectId("59c88e41d293a398e68c4cfc"), "tkt_no" : 100, "winner" : true }
+{ "_id" : ObjectId("59c88e4ad293a398e68c4cfd"), "tkt_no" : 101, "winner" : true }
+{ "_id" : ObjectId("59c88e6fd293a398e68c4cfe"), "tkt_no" : 123, "winner" : false }
+{ "_id" : ObjectId("59c88e7cd293a398e68c4cff"), "tkt_no" : 163, "winner" : false }
+{ "_id" : ObjectId("59c88e94d293a398e68c4d00"), "tkt_no" : 765, "winner" : true }
+> db.createCollection("food");
+{ "ok" : 1 }
+> db.food.insert({id:1,fruit:["Cherry","Banana"]});
+WriteResult({ "nInserted" : 1 })
+> db.food.insert({id:2,fruit:["peach","Banana"]});
+WriteResult({ "nInserted" : 1 })
+> db.food.insert({id:2,fruit:["peach","kiwi"]});
+WriteResult({ "nInserted" : 1 })
+> db.food.find({fruit:'peach'});
+{ "_id" : ObjectId("59c89221d293a398e68c4d02"), "id" : 2, "fruit" : [ "peach", "Banana" ] }
+{ "_id" : ObjectId("59c89228d293a398e68c4d03"), "id" : 2, "fruit" : [ "peach", "kiwi" ] }
+> db.food.insert({id:2,fruit:["peach","kiwi","mango"]});
+WriteResult({ "nInserted" : 1 })
+
+
+
+
+> db.food.find({fruit :{$size:3}})
+{ "_id" : ObjectId("59c892a0d293a398e68c4d04"), "id" : 2, "fruit" : [ "peach", "kiwi", "mango" ] }
+
+
+> db.food.find({fruit:{$all:['kiwi','peach']}});
+{ "_id" : ObjectId("59c89228d293a398e68c4d03"), "id" : 2, "fruit" : [ "peach", "kiwi" ] }
+{ "_id" : ObjectId("59c892a0d293a398e68c4d04"), "id" : 2, "fruit" : [ "peach", "kiwi", "mango" ] }
+> db.createCollection("staff");
+{ "ok" : 1 }
+
+> db.staff.insert({name:'a',age:20});
+WriteResult({ "nInserted" : 1 })
+> db.staff.insert({name:'a',age:21});
+WriteResult({ "nInserted" : 1 })
+> db.staff.insert({name:'b',age:24});
+WriteResult({ "nInserted" : 1 })
+> db.staff.insert({name:'c',age:26});
+WriteResult({ "nInserted" : 1 })

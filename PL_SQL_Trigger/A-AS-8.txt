@@ -1,0 +1,104 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+
+
+
+
+
+/* Aim  : 
+         Database Trigger (All Types: Row level and Statement
+         level triggers, Before and After Triggers). Write a
+         database trigger on Library table. The System should
+         keep track of the records that are being updated or
+         deleted. The old value of updated or deleted records
+         should be added in Library_Audit table.Frame the 
+         problem statement for writing Database Triggers of all
+         types, in-line with above statement. The problem
+         statement should clearly state the requirements.
+ 
+
+
+*/
+
+
+
+create or replace trigger library_audit_trigger before delete or update on library
+for each row
+/* mention nothing for statement level */
+
+begin
+
+insert into  library_audit values (:old.book_id,:old.book_name);
+
+end;
+
+
+
+
+
+
+
+
+
+
+/*Trigger before row level*/
+
+
+create or replace trigger add_to_audit before delete or update on library 
+for each row
+begin
+insert into lib_audit values(:old.book_id,:old.book_name);
+
+
+end;
+
+///////
+
+
+create table library (book_id int ,book_name varchar(10));
+
+create table lib_audit (book_id int ,book_name varchar(10));
+
+insert into library values(101,'toc')
+insert into library values(102,'cn')
+select * from library;
+select * from lib_audit;
+insert into library values(105,'sepm')
+
+
+update library set book_name='newsepm' where book_id=105;
+delete from library where book_id=102;
+
+delete from lib_audit ;
+
+
+/*Trigger before stmt level*/
+
+
+create or replace trigger add_to_audit before delete or update on library 
+/*for each row it is stmt level causes querry execution is applicable  for all rows */
+begin
+insert into lib_audit values(105,'isee');
+
+
+end;
+
+
+/*Trigger before row level when clause*/
+
+
+create or replace trigger add_to_audit before delete or update on library 
+for each row
+when(new.book_id>104)
+begin
+dbms_output.put_line('book_id'||:new.book_id||' greater');
+insert into lib_audit values(:old.book_id,:old.book_name);
+
+
+end;

@@ -1,0 +1,164 @@
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+1
+Enter the name of table to be created
+stud
+ enter first column name 
+roll
+ enter second column name 
+name
+ enter Third column name 
+marks
+Table is created
+
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+2
+ enter table name
+stud
+ enter First column value
+143
+ enter Second column value 
+dnyaneshwar
+ enter Third column value 
+95
+row inserted
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+3
+Enter the id
+
+
+
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+3
+Enter the id
+119
+deleted rows are:1
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+4
+enter id to be updated
+143
+enter marks to be updated
+98
+updated rows are:1
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+5
+143	dnyaneshwar	98
+do u want to continue(yes /no)
+6
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+6
+Enter the table name for Altering the table
+stud
+Enter column name
+grade
+Table is Altered
+
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+7
+Enter the table name for modifying column in the table
+stud
+Enter column name to modify
+roll
+Table is Altered
+
+do u want to continue(yes /no)
+y
+Press 1 to CREATE TABLE
+Press 2 to INSERT into the table
+Press 3 to DELETE from table
+Press 4 to UPDATE data in table
+Press 5 to VIEW ALL from table
+Press 6 to Alter Table to Add Column
+Press 7 to Alter Table to Modify Column
+Press 8 to Alter Table to Drop Column
+Press 9 to EXIT
+Enter your choice
+8
+Enter the table name for dropping the column
+stud
+Enter column name to be dropped
+grade
+Table is Altered
+
+do u want to continue(yes /no)

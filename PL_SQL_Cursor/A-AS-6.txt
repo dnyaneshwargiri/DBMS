@@ -1,0 +1,104 @@
+/*
+NAME           : DNYANESHWAR A GIRI
+ROLL NO        : TC143
+BATCH          : C
+SUBJECT        : DBMS LAB
+ACADEMIC YEAR  : 2017-18
+
+*/
+﻿
+
+
+
+
+/*       Aim  :   Cursors: (All types: Implicit, Explicit, Cursor FOR Loop,
+                  Parameterized Cursor)
+                  Write a PL/SQL block of code using parameterized
+                  Cursor, that will merge the data available in the newly
+                  created table N_RollCall with the data available in the
+                  table O_RollCall. If the data in the first table already exist
+                  in the second table then that data should be skipped.
+                  create table o_rollcall(roll number, name varchar2(20));
+                  create table n_rollcall(roll number, name varchar2(20));
+
+
+*/
+
+
+           /* PL/SQL Code */
+
+declare 
+cursor c1 is 
+select roll,name from o_rollcall;
+
+
+cursor c2 is 
+select roll from n_rollcall;
+
+r1 number(3);
+rno number(3);
+sname varchar2(20);
+
+begin
+open c1;
+open c2;
+
+loop
+fetch c1 into rno,sname;
+fetch c2 into r1;
+
+exit when c1%found = false;
+if r1<>rno then
+insert into n_rollcall values(rno,sname);
+end if;
+
+end loop;
+close c1;
+close c2;
+
+end;
+/
+
+
+
+
+/*cursor prc*/
+
+
+
+
+declare 
+cursor c1 is select rno from n_list;
+cursor c2 is select rno,name  from o_list;
+
+roll_no_n n_list.rno%type;
+
+roll_no_o  o_list.rno%type;
+name1      o_list.name%type;
+
+begin
+open c1;
+open c2;
+loop
+
+fetch c2 into roll_no_o,name1;
+fetch c1 into roll_no_n;
+
+Exit when c2%found=false;
+
+if(roll_no_o <> roll_no_n) then
+insert into n_list values(roll_no_o,name1);
+end if;
+
+end loop;
+close c1;
+close c2;
+
+end;
+
+
+
+/* OUTPUT ON SHELL */
+
+
+

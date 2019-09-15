@@ -1,0 +1,776 @@
+
+
+/*  Aim  : Design at least 10 SQL queries for suitable database
+           application using SQL DML statements:
+           all types of Join, Sub-Query and View. 
+
+*/
+
+
+
+
+
+
+/*  Join-Queries   */
+
+
+
+
+mmcoe@mmcoe-desktop:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 5.5.55-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| Student            |
+| mysql              |
+| performance_schema |
+| student            |
+| thirdyear          |
+| university         |
++--------------------+
+7 rows in set (0.03 sec)
+
+mysql> create database DNY
+    -> ;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use DNY
+Database changed
+mysql> create table product(pro_id int auto_increment,name text,price int,primary key(pro_id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> insert into product(name,price) values('Lenovo',8500),('Samsung',9000),('Panasonic',10000);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select 8 from product;
++---+
+| 8 |
++---+
+| 8 |
+| 8 |
+| 8 |
++---+
+3 rows in set (0.00 sec)
+
+mysql> select * from product;
++--------+-----------+-------+
+| pro_id | name      | price |
++--------+-----------+-------+
+|      1 | Lenovo    |  8500 |
+|      2 | Samsung   |  9000 |
+|      3 | Panasonic | 10000 |
++--------+-----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table product add mf_date text;
+Query OK, 3 rows affected (0.25 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from product;
++--------+-----------+-------+---------+
+| pro_id | name      | price | mf_date |
++--------+-----------+-------+---------+
+|      1 | Lenovo    |  8500 | NULL    |
+|      2 | Samsung   |  9000 | NULL    |
+|      3 | Panasonic | 10000 | NULL    |
++--------+-----------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update product set mf_date='01/02/2015' where pro_id=1;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product;
++--------+-----------+-------+------------+
+| pro_id | name      | price | mf_date    |
++--------+-----------+-------+------------+
+|      1 | Lenovo    |  8500 | 01/02/2015 |
+|      2 | Samsung   |  9000 | NULL       |
+|      3 | Panasonic | 10000 | NULL       |
++--------+-----------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update product set mf_date='15/10/2016' where pro_id=2;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update product set mf_date='09/03/2014' where pro_id=3;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product;
++--------+-----------+-------+------------+
+| pro_id | name      | price | mf_date    |
++--------+-----------+-------+------------+
+|      1 | Lenovo    |  8500 | 01/02/2015 |
+|      2 | Samsung   |  9000 | 15/10/2016 |
+|      3 | Panasonic | 10000 | 09/03/2014 |
++--------+-----------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+mysql> create or replace view pro_view as select pro_id,price,mf_date from product;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_DNY |
++---------------+
+| pro_view      |
+| product       |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from pro_view;
++--------+-------+------------+
+| pro_id | price | mf_date    |
++--------+-------+------------+
+|      1 |  8500 | 01/02/2015 |
+|      2 |  9000 | 15/10/2016 |
+|      3 | 10000 | 09/03/2014 |
++--------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+mysql> describe product;
++---------+---------+------+-----+---------+----------------+
+| Field   | Type    | Null | Key | Default | Extra          |
++---------+---------+------+-----+---------+----------------+
+| pro_id  | int(11) | NO   | PRI | NULL    | auto_increment |
+| name    | text    | YES  |     | NULL    |                |
+| price   | int(11) | YES  |     | NULL    |                |
+| mf_date | text    | YES  |     | NULL    |                |
++---------+---------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> create database DNYJOIN;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use DNYJOIN;
+Database changed
+mysql> create table customers (id int,name text,age int,address text,salary text);
+Query OK, 0 rows affected (0.10 sec)
+
+
+mysql> create table customers(id,name ,age,address,salary ) values (1,'dnyaneshwar',20,'Warje',10000),(2,'sanket',20,'Kharadi',95000), (3,'Prathmesh',21,'Karvenagar',15000),(4,'Aniket',22,'Katraj',20000),(5,'Shubham',21,'Kothrud',12000);ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name ,age,address,salary ) values (1,'dnyaneshwar',20,'Warje',10000),(2,'sanket'' at line 1
+
+mysql> insert into customers(id,name ,age,address,salary ) values (1,'dnyaneshwar',20,'Warje',10000),(2,'sanket',20,'Kharadi',95000), (3,'Prathmesh',21,'Karvenagar',15000),(4,'Aniket',22,'Katraj',20000),(5,'Shubham',21,'Kothrud',12000);
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Kharadi    | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> create table orders(o_id int,o_date Date,cust_id int,amount int);
+Query OK, 0 rows affected (0.09 sec)
+
+
+mysql> insert into  orders (o_id ,o_date ,cust_id ,amount) values(1,now('2017-06-17'),7,5000);
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+mysql> insert into  orders (o_id ,o_date ,cust_id ,amount) values(2,now(),8,6000);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> select * from orders;
++------+------------+---------+--------+
+| o_id | o_date     | cust_id | amount |
++------+------------+---------+--------+
+|    1 | 2017-06-30 |       7 |   5000 |
+|    2 | 2017-06-30 |       8 |   6000 |
++------+------------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into  orders (o_id ,o_date ,cust_id ,amount) values(3,'2017-06-22',4,6000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into  orders (o_id ,o_date ,cust_id ,amount) values(4,'2014-05-20',3,9500);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into  orders (o_id ,o_date ,cust_id ,amount) values(5,'2013-11-14',6,1500);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from orders;
++------+------------+---------+--------+
+| o_id | o_date     | cust_id | amount |
++------+------------+---------+--------+
+|    1 | 2017-06-30 |       7 |   5000 |
+|    2 | 2017-06-30 |       8 |   6000 |
+|    3 | 2017-06-22 |       4 |   6000 |
+|    4 | 2014-05-20 |       3 |   9500 |
+|    5 | 2013-11-14 |       6 |   1500 |
++------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Kharadi    | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from customers inner join orders on customers.id=orders.cust_id;
++------+-----------+------+------------+--------+------+------------+---------+--------+
+| id   | name      | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-----------+------+------------+--------+------+------------+---------+--------+
+|    4 | Aniket    |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    3 | Prathmesh |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
++------+-----------+------+------------+--------+------+------------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select id,name,salary,o_date from customers inner join orders on customers.id=orders.cust_id;
++------+-----------+--------+------------+
+| id   | name      | salary | o_date     |
++------+-----------+--------+------------+
+|    4 | Aniket    | 20000  | 2017-06-22 |
+|    3 | Prathmesh | 15000  | 2014-05-20 |
++------+-----------+--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers left join orders on customers.id=orders.cust_id;
++------+-------------+------+------------+--------+------+------------+---------+--------+
+| id   | name        | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  | NULL | NULL       |    NULL |   NULL |
+|    2 | sanket      |   20 | Kharadi    | 95000  | NULL | NULL       |    NULL |   NULL |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  | NULL | NULL       |    NULL |   NULL |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers left join orders on orders.cust_id=customers.id;
++------+-------------+------+------------+--------+------+------------+---------+--------+
+| id   | name        | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  | NULL | NULL       |    NULL |   NULL |
+|    2 | sanket      |   20 | Kharadi    | 95000  | NULL | NULL       |    NULL |   NULL |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  | NULL | NULL       |    NULL |   NULL |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers right join orders on orders.cust_id=customers.id;
++------+-----------+------+------------+--------+------+------------+---------+--------+
+| id   | name      | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-----------+------+------------+--------+------+------------+---------+--------+
+| NULL | NULL      | NULL | NULL       | NULL   |    1 | 2017-06-30 |       7 |   5000 |
+| NULL | NULL      | NULL | NULL       | NULL   |    2 | 2017-06-30 |       8 |   6000 |
+|    4 | Aniket    |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    3 | Prathmesh |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+| NULL | NULL      | NULL | NULL       | NULL   |    5 | 2013-11-14 |       6 |   1500 |
++------+-----------+------+------------+--------+------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders left join customers on orders.cust_id=customers.id;
++------+------------+---------+--------+------+-----------+------+------------+--------+
+| o_id | o_date     | cust_id | amount | id   | name      | age  | address    | salary |
++------+------------+---------+--------+------+-----------+------+------------+--------+
+|    1 | 2017-06-30 |       7 |   5000 | NULL | NULL      | NULL | NULL       | NULL   |
+|    2 | 2017-06-30 |       8 |   6000 | NULL | NULL      | NULL | NULL       | NULL   |
+|    3 | 2017-06-22 |       4 |   6000 |    4 | Aniket    |   22 | Katraj     | 20000  |
+|    4 | 2014-05-20 |       3 |   9500 |    3 | Prathmesh |   21 | Karvenagar | 15000  |
+|    5 | 2013-11-14 |       6 |   1500 | NULL | NULL      | NULL | NULL       | NULL   |
++------+------------+---------+--------+------+-----------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> select * from customers left join  orders on orders.cust_id=customers.id union all  select * from customers  right join orders on orders.cust_id=customers.id ;
++------+-------------+------+------------+--------+------+------------+---------+--------+
+| id   | name        | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  | NULL | NULL       |    NULL |   NULL |
+|    2 | sanket      |   20 | Kharadi    | 95000  | NULL | NULL       |    NULL |   NULL |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  | NULL | NULL       |    NULL |   NULL |
+| NULL | NULL        | NULL | NULL       | NULL   |    1 | 2017-06-30 |       7 |   5000 |
+| NULL | NULL        | NULL | NULL       | NULL   |    2 | 2017-06-30 |       8 |   6000 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+| NULL | NULL        | NULL | NULL       | NULL   |    5 | 2013-11-14 |       6 |   1500 |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+10 rows in set (0.01 sec)
+
+mysql> select * from customers left join  orders on orders.cust_id=customers.id union all  select * from customers  right join orders on orders.cust_id<6 and customers.id> 2 ;
++------+-------------+------+------------+--------+------+------------+---------+--------+
+| id   | name        | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  | NULL | NULL       |    NULL |   NULL |
+|    2 | sanket      |   20 | Kharadi    | 95000  | NULL | NULL       |    NULL |   NULL |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  | NULL | NULL       |    NULL |   NULL |
+| NULL | NULL        | NULL | NULL       | NULL   |    1 | 2017-06-30 |       7 |   5000 |
+| NULL | NULL        | NULL | NULL       | NULL   |    2 | 2017-06-30 |       8 |   6000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    3 | 2017-06-22 |       4 |   6000 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    3 | 2017-06-22 |       4 |   6000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    4 | 2014-05-20 |       3 |   9500 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    4 | 2014-05-20 |       3 |   9500 |
+| NULL | NULL        | NULL | NULL       | NULL   |    5 | 2013-11-14 |       6 |   1500 |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select * from customers cross join  orders  ;
++------+-------------+------+------------+--------+------+------------+---------+--------+
+| id   | name        | age  | address    | salary | o_id | o_date     | cust_id | amount |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |    1 | 2017-06-30 |       7 |   5000 |
+|    2 | sanket      |   20 | Kharadi    | 95000  |    1 | 2017-06-30 |       7 |   5000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    1 | 2017-06-30 |       7 |   5000 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    1 | 2017-06-30 |       7 |   5000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    1 | 2017-06-30 |       7 |   5000 |
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |    2 | 2017-06-30 |       8 |   6000 |
+|    2 | sanket      |   20 | Kharadi    | 95000  |    2 | 2017-06-30 |       8 |   6000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    2 | 2017-06-30 |       8 |   6000 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    2 | 2017-06-30 |       8 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    2 | 2017-06-30 |       8 |   6000 |
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |    3 | 2017-06-22 |       4 |   6000 |
+|    2 | sanket      |   20 | Kharadi    | 95000  |    3 | 2017-06-22 |       4 |   6000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    3 | 2017-06-22 |       4 |   6000 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    3 | 2017-06-22 |       4 |   6000 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    3 | 2017-06-22 |       4 |   6000 |
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |    4 | 2014-05-20 |       3 |   9500 |
+|    2 | sanket      |   20 | Kharadi    | 95000  |    4 | 2014-05-20 |       3 |   9500 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    4 | 2014-05-20 |       3 |   9500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    4 | 2014-05-20 |       3 |   9500 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    4 | 2014-05-20 |       3 |   9500 |
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |    5 | 2013-11-14 |       6 |   1500 |
+|    2 | sanket      |   20 | Kharadi    | 95000  |    5 | 2013-11-14 |       6 |   1500 |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |    5 | 2013-11-14 |       6 |   1500 |
+|    4 | Aniket      |   22 | Katraj     | 20000  |    5 | 2013-11-14 |       6 |   1500 |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |    5 | 2013-11-14 |       6 |   1500 |
++------+-------------+------+------------+--------+------+------------+---------+--------+
+25 rows in set (0.00 sec)
+
+mysql> select c1.address,c1.name,c2.name from customers c1 ,customers c2 where c1.address=c2.address;
++------------+-------------+-------------+
+| address    | name        | name        |
++------------+-------------+-------------+
+| Warje      | dnyaneshwar | dnyaneshwar |
+| Kharadi    | sanket      | sanket      |
+| Karvenagar | Prathmesh   | Prathmesh   |
+| Katraj     | Aniket      | Aniket      |
+| Kothrud    | Shubham     | Shubham     |
++------------+-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> update customers set address='Warje' where name='sanket';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select c1.address,c1.name,c2.name from customers c1 ,customers c2 where c1.address=c2.address;
++------------+-------------+-------------+
+| address    | name        | name        |
++------------+-------------+-------------+
+| Warje      | dnyaneshwar | dnyaneshwar |
+| Warje      | sanket      | dnyaneshwar |
+| Warje      | dnyaneshwar | sanket      |
+| Warje      | sanket      | sanket      |
+| Karvenagar | Prathmesh   | Prathmesh   |
+| Katraj     | Aniket      | Aniket      |
+| Kothrud    | Shubham     | Shubham     |
++------------+-------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+
+
+/*  Sub-Query Starts */
+
+
+
+mmcoe@mmcoe-desktop:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 5.5.55-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| DNY                |
+| DNYJOIN            |
+| Student            |
+| cust_data          |
+| info               |
+| kd                 |
+| mysql              |
+| performance_schema |
+| student            |
+| thirdyear          |
+| university         |
++--------------------+
+12 rows in set (0.05 sec)
+
+mysql> use DNYJOIN;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_DNYJOIN |
++-------------------+
+| customers         |
+| orders            |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Warje      | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+------------+---------+--------+
+| o_id | o_date     | cust_id | amount |
++------+------------+---------+--------+
+|    1 | 2017-06-30 |       7 |   5000 |
+|    2 | 2017-06-30 |       8 |   6000 |
+|    3 | 2017-06-22 |       4 |   6000 |
+|    4 | 2014-05-20 |       3 |   9500 |
+|    5 | 2013-11-14 |       6 |   1500 |
++------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> show indexes from customers;
+Empty set (0.00 sec)
+
+
+mysql> create unique index cust_index on customers (salary(20));
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customers;
++---------+---------+------+-----+---------+-------+
+| Field   | Type    | Null | Key | Default | Extra |
++---------+---------+------+-----+---------+-------+
+| id      | int(11) | YES  |     | NULL    |       |
+| name    | text    | YES  |     | NULL    |       |
+| age     | int(11) | YES  |     | NULL    |       |
+| address | text    | YES  |     | NULL    |       |
+| salary  | text    | YES  | UNI | NULL    |       |
++---------+---------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> drop index cust_index on customers; 
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> create unique index cust_index on customers (salary(20));
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> create user dnyaneshwar;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create view custview as select id,name from customers;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_DNYJOIN |
++-------------------+
+| customers         |
+| custview          |
+| orders            |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> create view cust_view as select name from custview;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> drop view custview;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_DNYJOIN |
++-------------------+
+| cust_view         |
+| customers         |
+| orders            |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> drop view cust_view;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_DNYJOIN |
++-------------------+
+| customers         |
+| orders            |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> create view custview as select id,name from customers;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create view cust_view as select name from custview;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> drop view custview;
+Query OK, 0 rows affected (0.00 sec)
+
+
+mysql> drop view cust_view;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create view custview as select id,name from customers;
+Query OK, 0 rows affected (0.04 sec)
+
+
+mysql> select * from customers where salary in(select salary from customers where salary>20000);
++------+--------+------+---------+--------+
+| id   | name   | age  | address | salary |
++------+--------+------+---------+--------+
+|    2 | sanket |   20 | Warje   | 95000  |
++------+--------+------+---------+--------+
+1 row in set (0.03 sec)
+
+mysql> create table cust_bkp select * from customers;
+Query OK, 5 rows affected (0.16 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from cust_bkp;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Warje      | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> drop index cust_index on customers; 
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update customers set salary=salary + 5000 where age in(select age from cust_bkp where age >= 20);
+Query OK, 5 rows affected (0.07 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from cust_bkp;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Warje      | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 15000  |
+|    2 | sanket      |   20 | Warje      | 100000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 20000  |
+|    4 | Aniket      |   22 | Katraj     | 25000  |
+|    5 | Shubham     |   21 | Kothrud    | 17000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into customers (id,name,age,address,salary) values(6,'John',26,'LA',150000) , (7,'Harry',29,'TempaFl',89000);
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> delete from cust_bkp where age in(select age from customers where age >26); 
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from cust_bkp;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 10000  |
+|    2 | sanket      |   20 | Warje      | 95000  |
+|    3 | Prathmesh   |   21 | Karvenagar | 15000  |
+|    4 | Aniket      |   22 | Katraj     | 20000  |
+|    5 | Shubham     |   21 | Kothrud    | 12000  |
++------+-------------+------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 15000  |
+|    2 | sanket      |   20 | Warje      | 100000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 20000  |
+|    4 | Aniket      |   22 | Katraj     | 25000  |
+|    5 | Shubham     |   21 | Kothrud    | 17000  |
+|    6 | John        |   26 | LA         | 150000 |
+|    7 | Harry       |   29 | TempaFl    | 89000  |
++------+-------------+------+------------+--------+
+7 rows in set (0.00 sec)
+
+
+mysql> select * from customers;
++------+-------------+------+------------+--------+
+| id   | name        | age  | address    | salary |
++------+-------------+------+------------+--------+
+|    1 | dnyaneshwar |   20 | Warje      | 15000  |
+|    2 | sanket      |   20 | Warje      | 100000 |
+|    3 | Prathmesh   |   21 | Karvenagar | 20000  |
+|    4 | Aniket      |   22 | Katraj     | 25000  |
+|    5 | Shubham     |   21 | Kothrud    | 17000  |
+|    6 | John        |   26 | LA         | 150000 |
+|    7 | Harry       |   29 | TempaFl    | 89000  |
++------+-------------+------+------------+--------+
+7 rows in set (0.00 sec)
+
+
+mysql> show index from customers;
+Empty set (0.00 sec)
+
+mysql> delete from customers where id in(select id from cust_bkp where age > 20); 
+Query OK, 3 rows affected (0.04 sec)
+
+mysql> select * from customers;
++------+-------------+------+---------+--------+
+| id   | name        | age  | address | salary |
++------+-------------+------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje   | 15000  |
+|    2 | sanket      |   20 | Warje   | 100000 |
+|    6 | John        |   26 | LA      | 150000 |
+|    7 | Harry       |   29 | TempaFl | 89000  |
++------+-------------+------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> rollback ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from customers;
++------+-------------+------+---------+--------+
+| id   | name        | age  | address | salary |
++------+-------------+------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje   | 15000  |
+|    2 | sanket      |   20 | Warje   | 100000 |
+|    6 | John        |   26 | LA      | 150000 |
+|    7 | Harry       |   29 | TempaFl | 89000  |
++------+-------------+------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+
+
+mmcoe@mmcoe-desktop:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 40
+Server version: 5.5.55-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use DNY;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> use DNYJOIN;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from customers;
++------+-------------+------+---------+--------+
+| id   | name        | age  | address | salary |
++------+-------------+------+---------+--------+
+|    1 | dnyaneshwar |   20 | Warje   | 15000  |
+|    2 | sanket      |   20 | Warje   | 100000 |
+|    6 | John        |   26 | LA      | 150000 |
+|    7 | Harry       |   29 | TempaFl | 89000  |
++------+-------------+------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+mysql> select * from customers where id in(select id from customers where age > 26); 
++------+-------+------+---------+--------+
+| id   | name  | age  | address | salary |
++------+-------+------+---------+--------+
+|    7 | Harry |   29 | TempaFl | 89000  |
++------+-------+------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
+
+
+
+
+
+
